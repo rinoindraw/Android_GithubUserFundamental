@@ -1,5 +1,6 @@
 package com.rinoindraw.githubyangke3
 
+import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,30 +12,33 @@ import retrofit2.http.Query
 
 class MainViewModel : ViewModel() {
 
-    val listUsers = MutableLiveData<ArrayList<ItemsItem>>()
+    private val _listGithubUser = MutableLiveData<List<GithubUser>>()
+    val listGithubUser: LiveData<List<GithubUser>> = _listGithubUser
 
-    fun setSearchUsers(query: String){
+    fun setSearchUsers(query: String) {
         ApiConfig.getApiService()
             .getUserList(query)
-            .enqueue(object : Callback<GithubResponse>{
+            .enqueue(object : Callback<UserResponse> {
                 override fun onResponse(
-                    call: Call<GithubResponse>,
-                    response: Response<GithubResponse>
+                    call: Call<UserResponse>,
+                    response: Response<UserResponse>
                 ) {
-                    if (response.isSuccessful){
-                        listUsers.postValue(response.body()?.items as ArrayList<ItemsItem>?)
+                    if (response.isSuccessful) {
+                        val responseBody = response.body()
+                        if (responseBody != null) {
+                            _listGithubUser.value = response.body()?.githubUsers
+
+                        }
+                    } else {
+                        Log.e(TAG, "onFailure: ${response.message()}")
                     }
                 }
 
-                override fun onFailure(call: Call<GithubResponse>, t: Throwable) {
-                    Log.d("Failure", t.message!!)
-                }
+                override fun onFailure(call: Call<UserResponse>, t: Throwable) {
 
+                    Log.e(TAG, "onFailure: ${t.message}")
+                }
             })
     }
-
-    fun getSetSearchUsers(): LiveData<ArrayList<ItemsItem>> {
-        return listUsers
-    }
-
 }
+

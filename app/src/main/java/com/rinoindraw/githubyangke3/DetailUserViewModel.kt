@@ -9,8 +9,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class DetailUserViewModel : ViewModel() {
-    val user = MutableLiveData<DetailResponse>()
-
+    private val _listDetail = MutableLiveData<DetailResponse>()
+    val listDetail: LiveData<DetailResponse> = _listDetail
     fun setUserDetail(username: String) {
         ApiConfig.getApiService()
             .getUsersDetail(username)
@@ -20,7 +20,7 @@ class DetailUserViewModel : ViewModel() {
                     response: Response<DetailResponse>
                 ) {
                     if (response.isSuccessful) {
-                        user.postValue(response.body())
+                        _listDetail.postValue(response.body())
                     }
                 }
 
@@ -30,9 +30,4 @@ class DetailUserViewModel : ViewModel() {
 
             })
     }
-
-    fun getUserDetail(): LiveData<DetailResponse> {
-        return user
-    }
-
 }

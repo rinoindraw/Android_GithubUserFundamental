@@ -1,6 +1,5 @@
 package com.rinoindraw.githubyangke3
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
@@ -8,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.rinoindraw.githubyangke3.DetailUserActivity.Companion.EXTRA_USERNAME
 import com.rinoindraw.githubyangke3.databinding.FragmentFollowersBinding
 
 
@@ -16,46 +14,47 @@ class FragmentFollowers : Fragment(R.layout.fragment_followers) {
 
     private var _binding : FragmentFollowersBinding? = null
     private val binding get() = _binding!!
-    private lateinit var username: String
     private lateinit var viewModel: FollowersViewModel
-    private lateinit var adapter: UserAdapter
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
+            FollowersViewModel::class.java)
+    }
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentFollowersBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val args = arguments
-        username = args?.getString(DetailUserActivity.EXTRA_USERNAME).toString()
-        _binding = FragmentFollowersBinding.bind(view)
-
-
-        adapter = UserAdapter()
-        adapter.notifyDataSetChanged()
-
-        binding.apply {
-            rvUser.setHasFixedSize(true)
-            rvUser.layoutManager = LinearLayoutManager(activity)
-            rvUser.adapter = adapter
-        }
-
-
-
         showLoading(true)
-        viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(FollowersViewModel::class.java)
-        viewModel.setListFollowers(username)
-        viewModel.listFollowers.observe(viewLifecycleOwner) { followers ->
-            followers?.let {
-                binding.apply {
-                    adapter.setList(it)
-                    showLoading(false)
-                }
 
-            }
-        }
+        viewModel.listFollowers.observe(viewLifecycleOwner, { listFollower ->
+            setDataToFragment(listFollower)
+            showLoading(false)
+        })
+
+        viewModel.setListFollowers(arguments?.getString(DetailUserActivity.EXTRA_FRAGMENT).toString())
 
     }
 
-
+    private fun setDataToFragment(listFollower: List<GithubUser>) {
+        val listUser = ArrayList<GithubUser>()
+        with(binding) {
+            for (user in listFollower) {
+                listUser.clear()
+                listUser.addAll(listFollower)
+            }
+            rvUser.layoutManager = LinearLayoutManager(context)
+            val adapter = FollowerAdapter(listFollower)
+            rvUser.adapter = adapter
+        }
+    }
 
     private fun showLoading(state: Boolean){
         if (state) {
@@ -65,7 +64,10 @@ class FragmentFollowers : Fragment(R.layout.fragment_followers) {
         }
     }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 
 
 }

@@ -6,9 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rinoindraw.githubyangke3.databinding.ItemUserBinding
 
-class UserAdapter(private val listUser: List<GithubUser>) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
-    private lateinit var onItemClickCallback: OnItemClickCallback
 
+class FollowerAdapter(private val listFollower: List<GithubUser>) : RecyclerView.Adapter<FollowerAdapter.ViewHolder>(){
     class ViewHolder(var binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -17,25 +16,16 @@ class UserAdapter(private val listUser: List<GithubUser>) : RecyclerView.Adapter
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val user = listUser[position]
+        val follower = listFollower[position]
 
         with(holder.binding) {
             Glide.with(root.context)
-                .load(user.avatarUrl)
+                .load(follower.avatarUrl)
                 .circleCrop()
                 .into(imgUser)
-            textUsername.text = user.login
-            root.setOnClickListener { onItemClickCallback.onItemClicked(listUser[position]) }
+            textUsername.text = follower.login
         }
     }
 
-    override fun getItemCount(): Int = listUser.size
-
-    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
-        this.onItemClickCallback = onItemClickCallback
-    }
-
-    interface OnItemClickCallback {
-        fun onItemClicked(data: GithubUser)
-    }
+    override fun getItemCount(): Int = listFollower.size
 }

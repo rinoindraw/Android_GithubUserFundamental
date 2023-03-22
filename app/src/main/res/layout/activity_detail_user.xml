@@ -1,100 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context=".DetailUserActivity">
 
-    <ImageView
-        android:id="@+id/image_profile"
-        android:layout_width="128dp"
-        android:layout_height="128dp"
-        android:layout_marginTop="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.144"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/text_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/image_profile"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toEndOf="@+id/image_profile"
-        app:layout_constraintTop_toTopOf="@+id/image_profile"
-        app:layout_constraintVertical_bias="0.339"
-        tools:text="TextView" />
-
-    <TextView
-        android:id="@+id/text_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/text_profile"
-        app:layout_constraintStart_toStartOf="@+id/text_profile"
-        app:layout_constraintTop_toBottomOf="@+id/text_profile"
-        tools:text="TextView" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="@+id/text_username"
-        app:layout_constraintStart_toStartOf="@+id/text_username"
-        app:layout_constraintTop_toBottomOf="@+id/text_username"
-        app:layout_goneMarginTop="8dp">
+        <ImageView
+            android:id="@+id/image_profile"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:contentDescription="@string/content_description"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/text_followers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="16dp"
-            android:textSize="14sp"
-            app:drawableStartCompat="@drawable/baseline_people_outline_24"
-            tools:text="7 Followers" />
+            android:id="@+id/text_name"
+            style="@style/TextContent.TitleDetails"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/image_profile"
+            app:layout_constraintTop_toTopOf="@+id/image_profile"
+            tools:text="@string/name_placeholder" />
+
+        <TextView
+            android:id="@+id/text_username"
+            style="@style/TextContent.SubtitleDetails.Username"
+            android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/text_name"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/image_profile"
+            app:layout_constraintTop_toBottomOf="@+id/text_name"
+            tools:text="@string/username_placeholder" />
 
         <TextView
             android:id="@+id/text_following"
+            style="@style/TextContent.Details"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@+id/text_followers"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/text_followers"
+            app:layout_constraintTop_toTopOf="@+id/text_followers"
+            tools:text="@string/following" />
+
+        <TextView
+            android:id="@+id/text_repository"
+            style="@style/TextContent.Details"
+            android:layout_marginTop="16dp"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/text_followers"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image_profile"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="@string/repository" />
+
+        <TextView
+            android:id="@+id/text_followers"
+            style="@style/TextContent.Details"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="@+id/text_repository"
+            app:layout_constraintEnd_toStartOf="@+id/text_following"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/text_repository"
+            app:layout_constraintTop_toTopOf="@+id/text_repository"
+            tools:text="@string/follower" />
+
+        <TextView
+            android:id="@+id/text_website"
+            style="@style/TextContent.SubtitleDetails.Website"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/progressBarGone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_repository"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="@string/website_placeholder" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textSize="14sp"
-            app:drawableStartCompat="@drawable/baseline_people_outline_24"
-            tools:text="7 Following" />
+            app:layout_constraintBottom_toBottomOf="@id/tabs"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/view_pager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_website"
+            app:tabTextColor="@color/light_gray"
+            tools:ignore="SpeakableTextPresentCheck"
+            app:tabBackground="@drawable/custom_tabs"
+            app:tabIndicatorColor="@color/soft_gray"/>
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabs"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:background="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image_profile"
-        app:tabTextColor="@color/black"
-        tools:contentDescription="Example" />
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tabs" />
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/view_pager"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabs"
-        app:layout_constraintVertical_bias="1.0"
-        tools:contentDescription="Example" />
+        <ProgressBar
+            android:id="@+id/progressBarGone"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

@@ -26,10 +26,5 @@ class ApiConfig {
 
             return retrofit.create(ApiService::class.java)
         }
-//        val loggingInterceptor = if(BuildConfig.DEBUG) {
-//            HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-//        } else {
-//            HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
-//        }
     }
 }
